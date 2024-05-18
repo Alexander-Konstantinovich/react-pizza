@@ -6,11 +6,11 @@
 .input{
 	padding: 8px 15px;
 	padding-left: 40px;
-	width: 250px;
+	width: 350px;
 	border-color: #fe5f1e;
 	border-radius: 10px;
 	font-size: 16px;
-	transition: all 0.15ms ease-in-out;
+	transition: all 0.65ms ease-in-out;
 
 	&:focus{
 		width: 400px;
@@ -20,9 +20,22 @@
 .icon{
 	width: 23px;
 	height: 23px;
-	opacity: 0.8;
+	opacity: 0.5;
 	position: absolute;
 	left: 9px;
 	top: 11px;
-	
+}
+
+.clear{
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	top: 11px;
+	right: 15px;
+	opacity: 0.5;
+	cursor: pointer;
+
+	&:hover{
+		opacity: 0.9;
+	}
 }
