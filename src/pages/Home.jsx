@@ -8,12 +8,11 @@ import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategory, setSort } from '../redux/slices/filterSlice';
+import { setCategory } from '../redux/slices/filterSlice';
 
 function Home() {
 	const dispatch = useDispatch(); //useDispatch возвращает нам специальную функцию и помещает в dispatch
-	const categoryId = useSelector(state => state.filter.category); //Берёт из нашего store.filter, а у filter наш initialState т.е. category.
-	const sortType = useSelector(state => state.filter.sort);
+	const { categoryId, sort } = useSelector(state => state.filter); //Берёт из нашего store.filter, а у filter наш initialState.
 
 	const [items, setItems] = React.useState([]);
 	const { searchValue } = React.useContext(SearchContext);
@@ -21,12 +20,11 @@ function Home() {
 	const [currentPage, setCurrentPage] = React.useState(1);
 
 
-	React.useEffect(() => {
-		setIsLoading(true);
 
+	React.useEffect(() => {
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
-		const sortBy = sortType.sortProperty.replace('-', '');
-		const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+		const sortBy = sort.sortProperty.replace('-', '');
+		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 		const search = searchValue ? `&search=${searchValue}` : '';
 
 		fetch(
@@ -38,7 +36,7 @@ function Home() {
 				setIsLoading(false);
 			});
 		window.scrollTo(0, 0);
-	}, [categoryId, sortType, searchValue, currentPage]); // если будет меняться хоть одна зависимость, то делается новый запрос
+	}, [categoryId, sort, searchValue, currentPage]); // если будет меняться хоть одна зависимость, то делается новый запрос
 
 	const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />);
 	const skeletons = [...new Array(6)].map((_, index) => (
@@ -54,7 +52,7 @@ function Home() {
 						dispatch(setCategory(id));
 					}} //передаём в dispatch наш ИМПОРТИРОВАННЫЙ метод
 				/>
-				<Sort value={sortType} onClickSort={id => dispatch(setSort(id))} />
+				<Sort />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 
