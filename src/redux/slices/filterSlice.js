@@ -23,8 +23,13 @@ const filterSlice = createSlice({
 		setCurrentPage(state, action) {
 			state.currentPage = action.payload;
 		},
+		setFilters(state, action){
+			state.sort = action.payload.sort;
+			state.currentPage = Number(action.payload.currentPage);
+			state.categoryId = Number(action.payload.categoryId);
+		}
 	},
 });
 
-export const { setCategory, setSort, setCurrentPage } = filterSlice.actions; // Вытаскиваем наш метод из объекта и преобразовываем его в константу.
+export const { setCategory, setSort, setCurrentPage, setFilters } = filterSlice.actions; // Вытаскиваем наш метод из объекта и преобразовываем его в константу.
 export default filterSlice.reducer;
