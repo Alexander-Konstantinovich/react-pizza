@@ -3,29 +3,41 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort } from '../redux/slices/filterSlice';
 
-	export const sortList = [
-		{ name: 'популярности(DESC)', sortProperty: 'rating' },
-		{ name: 'популярности (ASC)', sortProperty: '-rating' },
-		{ name: 'цене (DESC)', sortProperty: 'price' },
-		{ name: 'цене (ASC)', sortProperty: '-price' },
-		{ name: 'алфавиту (DESC)', sortProperty: 'title' },
-		{ name: 'алфавиту (ASC)', sortProperty: '-title' },
-	];
-	
+export const sortList = [
+	{ name: 'популярности(DESC)', sortProperty: 'rating' },
+	{ name: 'популярности (ASC)', sortProperty: '-rating' },
+	{ name: 'цене (DESC)', sortProperty: 'price' },
+	{ name: 'цене (ASC)', sortProperty: '-price' },
+	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
+	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
+];
+
 function Sort() {
 	const dispatch = useDispatch();
+	const sortRef = React.useRef();
 	const sort = useSelector(state => state.filter.sort);
 	const [isVisible, setIsVisible] = useState(false);
-
-
 
 	const onClickName = obj => {
 		dispatch(setSort(obj));
 		setIsVisible(false);
 	};
 
+	React.useEffect(() => {
+		const handleClick = event => {			//оборачиваем условие в функцию т.к. при переходе на др страницы внутри проекта он не удаляет наш обработчик
+			if (!event.composedPath().includes(sortRef.current)) {	// mount
+				setIsVisible(false);
+				console.log('click')
+			}
+		};
+		document.body.addEventListener('click', handleClick);
+		return () => {														// unmount
+			document.body.removeEventListener('click', handleClick);
+		};
+	}, []);
+
 	return (
-		<div className='sort'>
+		<div ref={sortRef} className='sort'>
 			<div className='sort__label'>
 				<svg
 					width='10'
