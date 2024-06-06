@@ -24,15 +24,14 @@ function Sort() {
 	};
 
 	React.useEffect(() => {
-		const handleClick = event => {			//оборачиваем условие в функцию т.к. при переходе на др страницы внутри проекта он не удаляет наш обработчик
+		const handleClickOutside = event => {			//оборачиваем условие в функцию т.к. при переходе на др страницы внутри проекта он не удаляет наш обработчик
 			if (!event.composedPath().includes(sortRef.current)) {	// mount
 				setIsVisible(false);
-				console.log('click')
 			}
 		};
-		document.body.addEventListener('click', handleClick);
+		document.body.addEventListener('click', handleClickOutside);	// указываем какой клик удаляем. 
 		return () => {														// unmount
-			document.body.removeEventListener('click', handleClick);
+			document.body.removeEventListener('click', handleClickOutside);
 		};
 	}, []);
 
