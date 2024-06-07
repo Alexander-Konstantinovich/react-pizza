@@ -30,21 +30,24 @@ function Home() {
 	const { searchValue } = React.useContext(SearchContext);
 	const [isLoading, setIsLoading] = React.useState(true);
 
-	const fetchPizzas = () => {
+	const fetchPizzas = async () => {
 		setIsLoading(true);
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
 		const sortBy = sort.sortProperty.replace('-', '');
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 		const search = searchValue ? `&search=${searchValue}` : '';
 
-		axios
-			.get(
+		try {
+			const res = await axios.get(
 				`https://663e0583e1913c4767963fff.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-			)
-			.then(res => {
-				setItems(res.data);
-				setIsLoading(false);
-			});
+			);
+			setItems(res.data);
+			setIsLoading(false);
+		} catch (error) {
+			setIsLoading(false)
+			alert('Sorry, there was an error, try again later')
+			console.log(error);
+		}
 	};
 
 	// в случае отсутствия первого рендера, не вшиваем наши параметры в наш URL

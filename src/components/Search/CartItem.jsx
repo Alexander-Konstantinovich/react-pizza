@@ -4,6 +4,7 @@ import { setAddItem, setMinusItem, setRemoveItem } from '../../redux/slices/cart
 
 const CartItem = ({ id, title, count, size, imageUrl, price, type }) => {
 	const dispatch = useDispatch();
+	const sumPrice = price * count;
 
 	const onClickPlus = () => {
 		dispatch(setAddItem({ id }));
@@ -74,7 +75,7 @@ const CartItem = ({ id, title, count, size, imageUrl, price, type }) => {
 				</div>
 			</div>
 			<div class='cart__item-price'>
-				<b>{price * count} ₽</b>
+				<b>{sumPrice} ₽</b>
 			</div>
 			<div class='cart__item-remove'>
 				<div onClick={onClickRemove} class='button button--outline button--circle'>
