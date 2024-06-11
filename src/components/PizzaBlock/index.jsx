@@ -1,13 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAddItem } from '../../redux/slices/cartSlice';
+import { setAddItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
 function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 	const [activeTypesValue, setActiveTypesValue] = React.useState(0);//состояние нашего типа теста
 	const [activeSize, setActiveSize] = React.useState(0);// состояние размера см.
-	const cartItem = useSelector(state =>
-		state.cart.items.find(obj => obj.id === id)
-	); //Ищем в нашем массиве items пиццу с таким же id и если он нашелся то вытаскиваем count и рендерим его
+	const cartItem = useSelector(selectCartItemById(id)	); //Ищем в нашем массиве items пиццу с таким же id и если он нашелся то вытаскиваем count и рендерим его
 	const addedCount = cartItem ? cartItem.count : 0;
 	const dispatch = useDispatch();
 

@@ -16,17 +16,18 @@ import {
 	setCategory,
 	setCurrentPage,
 	setFilters,
+	selectFilter,
 } from '../redux/slices/filterSlice';
-import { fetchAddPizzas } from '../redux/slices/pizzasSlice';
+import { fetchAddPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 
 function Home() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch(); //useDispatch возвращает нам специальную функцию и помещает в dispatch
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false); //Указываем первый рендер false
-	const { categoryId, sort, currentPage } = useSelector(state => state.filter); //Берёт из нашего store.filter, а у filter наш initialState.
+	const { categoryId, sort, currentPage } = useSelector(selectFilter); //Берёт из нашего store.filter, а у filter наш initialState.
 
-	const {items, status} = useSelector(state => state.pizzas);
+	const {items, status} = useSelector(selectPizzaData);
 	const { searchValue } = React.useContext(SearchContext);
 
 	const fetchPizzas = async () => {

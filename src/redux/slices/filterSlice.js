@@ -31,5 +31,8 @@ const filterSlice = createSlice({
 	},
 });
 
+export const selectSort = state => state.filter.sort
+export const selectFilter = state => state.filter
+
 export const { setCategory, setSort, setCurrentPage, setFilters } = filterSlice.actions; // Вытаскиваем наш метод из объекта и преобразовываем его в константу.
 export default filterSlice.reducer;
