@@ -22,13 +22,12 @@ import { fetchAddPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 
 function Home() {
 	const navigate = useNavigate();
-	const dispatch = useDispatch(); //useDispatch возвращает нам специальную функцию и помещает в dispatch
+	const dispatch = useDispatch(); 
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false); //Указываем первый рендер false
-	const { categoryId, sort, currentPage } = useSelector(selectFilter); //Берёт из нашего store.filter, а у filter наш initialState.
+	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
 	const {items, status} = useSelector(selectPizzaData);
-	const { searchValue } = React.useContext(SearchContext);
 
 	const fetchPizzas = async () => {
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
