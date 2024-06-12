@@ -12,16 +12,16 @@ const Search = () => {
 	const onClickClear = () => {
 		dispatch(setSearchValue(''));
 		setValue(''); // локальная очистка
-		
+
 		//document.querySelector('input').focus()
 		inputRef.current.focus();
 	}; //сохранили ссылку на функцию в переменную и сделали её отложенной для того,
 	//чтобы она не пересоздавалась каждый раз.
 	const updateSearchValue = React.useCallback(
-		debounce((str) => {
+		debounce(str => {
 			dispatch(setSearchValue(str));
 		}, 250),
-		[] 
+		[]
 	);
 
 	const onChangeInput = event => {

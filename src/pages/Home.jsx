@@ -1,14 +1,13 @@
 import React from 'react';
 
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 import { sortList } from '../components/Sort';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,12 +21,13 @@ import { fetchAddPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 
 function Home() {
 	const navigate = useNavigate();
-	const dispatch = useDispatch(); 
+	const dispatch = useDispatch();
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false); //Указываем первый рендер false
-	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+	const { categoryId, sort, currentPage, searchValue } =
+		useSelector(selectFilter);
 
-	const {items, status} = useSelector(selectPizzaData);
+	const { items, status } = useSelector(selectPizzaData);
 
 	const fetchPizzas = async () => {
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
@@ -79,7 +79,11 @@ function Home() {
 		window.scrollTo(0, 0);
 	}, [categoryId, sort, searchValue, currentPage]);
 
-	const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />);
+	const pizzas = items.map(obj => (
+		<Link key={obj.id} to={`pizza/${obj.id}`}>
+			<PizzaBlock {...obj} />
+		</Link>
+	));
 	const skeletons = [...new Array(6)].map((_, index) => (
 		<Skeleton key={index} />
 	));
@@ -96,13 +100,17 @@ function Home() {
 				<Sort />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
-					{status === 'error' ? (
-					<div className='content__error--info'>
-						<h2>
-						Error 😕
-						</h2>
-						<p>Try again later</p></div>) : <div className='content__items'>{status === 'loading' ? skeletons : pizzas}</div>}
-					
+			{status === 'error' ? (
+				<div className='content__error--info'>
+					<h2>Error 😕</h2>
+					<p>Try again later</p>
+				</div>
+			) : (
+				<div className='content__items'>
+					{status === 'loading' ? skeletons : pizzas}
+				</div>
+			)}
+
 			<Pagination
 				currentPage={currentPage}
 				onChangePage={number => dispatch(setCurrentPage(number))}
