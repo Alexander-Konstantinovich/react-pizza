@@ -4,27 +4,28 @@ import debounce from 'lodash.debounce';
 import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
-const Search = () => {
+const Search:React.FC = () => {
 	const [value, setValue] = React.useState(''); // локальный state
 	const dispatch = useDispatch();
-	const inputRef = React.useRef();
+	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const onClickClear = () => {
 		dispatch(setSearchValue(''));
 		setValue(''); // локальная очистка
 
 		//document.querySelector('input').focus()
-		inputRef.current.focus();
+
+		inputRef.current?.focus(); //проверка на отсутствие возможного null в useRef
 	}; //сохранили ссылку на функцию в переменную и сделали её отложенной для того,
 	//чтобы она не пересоздавалась каждый раз.
 	const updateSearchValue = React.useCallback(
-		debounce(str => {
+		debounce((str:string) => {
 			dispatch(setSearchValue(str));
 		}, 250),
 		[]
 	);
 
-	const onChangeInput = event => {
+	const onChangeInput = (event:any) => {
 		// вызываем наш useCallback каждый раз при изменении input(т.е. value)
 		setValue(event.target.value);
 		updateSearchValue(event.target.value);

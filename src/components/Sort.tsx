@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort, selectSort } from '../redux/slices/filterSlice';
 
-export const sortList = [
+type TypeSortList = {
+	name: string;
+	sortProperty: string;
+}
+
+export const sortList: TypeSortList[] = [
 	{ name: 'популярности(DESC)', sortProperty: 'rating' },
 	{ name: 'популярности (ASC)', sortProperty: '-rating' },
 	{ name: 'цене (DESC)', sortProperty: 'price' },
@@ -14,17 +19,17 @@ export const sortList = [
 
 function Sort() {
 	const dispatch = useDispatch();
-	const sortRef = React.useRef();
+	const sortRef = React.useRef<HTMLDivElement>(null);
 	const sort = useSelector(selectSort);
 	const [isVisible, setIsVisible] = useState(false);
 
-	const onClickName = obj => {
+	const onClickName = (obj: TypeSortList) => {
 		dispatch(setSort(obj));
 		setIsVisible(false);
 	};
 
 	React.useEffect(() => {
-		const handleClickOutside = event => {			//оборачиваем условие в функцию т.к. при переходе на др страницы внутри проекта он не удаляет наш обработчик
+		const handleClickOutside = (event:any) => {			//оборачиваем условие в функцию т.к. при переходе на др страницы внутри проекта он не удаляет наш обработчик
 			if (!event.composedPath().includes(sortRef.current)) {	// mount
 				setIsVisible(false);
 			}

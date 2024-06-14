@@ -19,7 +19,7 @@ import {
 } from '../redux/slices/filterSlice';
 import { fetchAddPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 
-function Home() {
+const Home: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const isSearch = React.useRef(false);
@@ -34,7 +34,7 @@ function Home() {
 		const sortBy = sort.sortProperty.replace('-', '');
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 		const search = searchValue ? `&search=${searchValue}` : '';
-
+		// @ts-ignore
 		dispatch(fetchAddPizzas({ category, sortBy, order, search, currentPage })); //получает данные и сразу их сохраняет
 		window.scrollTo(0, 0);
 	};
@@ -79,7 +79,7 @@ function Home() {
 		window.scrollTo(0, 0);
 	}, [categoryId, sort, searchValue, currentPage]);
 
-	const pizzas = items.map(obj => (
+	const pizzas = items.map((obj:any) => (
 		<Link key={obj.id} to={`pizza/${obj.id}`}>
 			<PizzaBlock {...obj} />
 		</Link>
@@ -93,7 +93,7 @@ function Home() {
 			<div className='content__top'>
 				<Categories
 					value={categoryId}
-					onClickCategory={id => {
+					onClickCategory={(id: number) => {
 						dispatch(setCategory(id));
 					}} //передаём в dispatch наш ИМПОРТИРОВАННЫЙ метод
 				/>
@@ -113,10 +113,10 @@ function Home() {
 
 			<Pagination
 				currentPage={currentPage}
-				onChangePage={number => dispatch(setCurrentPage(number))}
+				onChangePage={(page: number) => dispatch(setCurrentPage(page))}
 			/>
 		</div>
 	);
-}
+};
 
 export default Home;

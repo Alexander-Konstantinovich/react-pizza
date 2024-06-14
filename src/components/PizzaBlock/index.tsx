@@ -2,23 +2,41 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAddItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
-function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
-	const [activeTypesValue, setActiveTypesValue] = React.useState(0);//состояние нашего типа теста
-	const [activeSize, setActiveSize] = React.useState(0);// состояние размера см.
-	const cartItem = useSelector(selectCartItemById(id)	); //Ищем в нашем массиве items пиццу с таким же id и если он нашелся то вытаскиваем count и рендерим его
+type TypePizzaBlock = {
+	id: string;
+	title: string;
+	count: number;
+	sizes: number[];
+	imageUrl: string;
+	price: number;
+	types: number[];
+};
+
+const PizzaBlock: React.FC<TypePizzaBlock> = ({
+	id,
+	title,
+	price,
+	imageUrl,
+	sizes,
+	types,
+}) => {
+	const [activeTypesValue, setActiveTypesValue] = React.useState(0); //состояние нашего типа теста
+	const [activeSize, setActiveSize] = React.useState(0); // состояние размера см.
+	const cartItem = useSelector(selectCartItemById(id)); //Ищем в нашем массиве items пиццу с таким же id и если он нашелся то вытаскиваем count и рендерим его
 	const addedCount = cartItem ? cartItem.count : 0;
 	const dispatch = useDispatch();
 
 	const typesNames = ['тонкое', 'традиционное'];
 
 	const onClickAdd = () => {
-		const item = {// указываем, что у нас будет храниться в корзине внутри нашего товара
+		const item = {
+			// указываем, что у нас будет храниться в корзине внутри нашего товара
 			id,
 			title,
 			price,
 			imageUrl,
 			type: typesNames[activeTypesValue],
-			size:sizes[activeSize],
+			size: sizes[activeSize],
 		};
 		dispatch(setAddItem(item)); //??
 	};
@@ -70,13 +88,14 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 								fill='white'
 							/>
 						</svg>
-						<span>Добавить</span> {/*Если > 0, то только тогда рендерим первую часть*/}
-						{addedCount > 0 && <i>{addedCount}</i>} 
+						<span>Добавить</span>{' '}
+						{/*Если > 0, то только тогда рендерим первую часть*/}
+						{addedCount > 0 && <i>{addedCount}</i>}
 					</button>
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default PizzaBlock;
