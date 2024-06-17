@@ -25,8 +25,7 @@ const Search:React.FC = () => {
 		[]
 	);
 
-	const onChangeInput = (event:any) => {
-		// вызываем наш useCallback каждый раз при изменении input(т.е. value)
+	const onChangeInput = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setValue(event.target.value);
 		updateSearchValue(event.target.value);
 	};

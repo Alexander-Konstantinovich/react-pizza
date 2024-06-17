@@ -61,7 +61,7 @@ const Home: React.FC = () => {
 			); //?????????
 			dispatch(
 				setFilters({
-					//сохраняем наши параметры в redux
+					//сохраняем наши параметры в reduxы
 					...params,
 					sort, //??
 				})

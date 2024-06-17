@@ -29,8 +29,9 @@ function Sort() {
 	};
 
 	React.useEffect(() => {
-		const handleClickOutside = (event:any) => {			//оборачиваем условие в функцию т.к. при переходе на др страницы внутри проекта он не удаляет наш обработчик
-			if (!event.composedPath().includes(sortRef.current)) {	// mount
+		const handleClickOutside = (event:MouseEvent) => {
+
+			if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
 				setIsVisible(false);
 			}
 		};

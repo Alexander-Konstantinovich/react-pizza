@@ -2,10 +2,8 @@ import React from 'react';
 
 type TypeCategories = {
 	value: number;
-	onClickCategory: any;
+	onClickCategory: (idx: number)=> void;
 };
-
-const Categories: React.FC<TypeCategories> = ({ value, onClickCategory }) => {
 	const categories = [
 		'Все',
 		'Мясные',
@@ -14,6 +12,8 @@ const Categories: React.FC<TypeCategories> = ({ value, onClickCategory }) => {
 		'Острые',
 		'Закрытые',
 	];
+
+const Categories: React.FC<TypeCategories> = ({ value, onClickCategory }) => {
 
 	return (
 		<div className='categories'>

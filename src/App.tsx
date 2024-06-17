@@ -1,10 +1,10 @@
-import NotFound from './pages/NotFound.jsx';
+import NotFound from './pages/NotFound';
 import './scss/app.scss';
 import { Route, Routes } from 'react-router-dom';
 import FullPizza from './pages/FullPizza';
-import Home from './pages/Home.jsx';
-import Cart from './pages/Cart.jsx';
-import MainLayout from './components/layouts/MainLayout.jsx';
+import Home from './pages/Home';
+import Cart from './pages/Cart';
+import MainLayout from './components/layouts/MainLayout';
 
 function App() {
 	return (
