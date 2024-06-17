@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAddItem, selectCartItemById } from '../../redux/slices/cartSlice';
+import { setAddItem, selectCartItemById, CartItem } from '../../redux/slices/cartSlice';
+
 
 type TypePizzaBlock = {
 	id: string;
@@ -29,7 +30,7 @@ const PizzaBlock: React.FC<TypePizzaBlock> = ({
 	const typesNames = ['тонкое', 'традиционное'];
 
 	const onClickAdd = () => {
-		const item = {
+		const item: CartItem = {
 			// указываем, что у нас будет храниться в корзине внутри нашего товара
 			id,
 			title,
@@ -37,6 +38,7 @@ const PizzaBlock: React.FC<TypePizzaBlock> = ({
 			imageUrl,
 			type: typesNames[activeTypesValue],
 			size: sizes[activeSize],
+			count: 0,
 		};
 		dispatch(setAddItem(item)); //??
 	};

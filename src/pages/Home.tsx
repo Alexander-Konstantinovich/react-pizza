@@ -79,7 +79,7 @@ const Home: React.FC = () => {
 		window.scrollTo(0, 0);
 	}, [categoryId, sort, searchValue, currentPage]);
 
-	const pizzas = items.map((obj:any) => (
+	const pizzas = items.map((obj: any) => (
 		<Link key={obj.id} to={`pizza/${obj.id}`}>
 			<PizzaBlock {...obj} />
 		</Link>
