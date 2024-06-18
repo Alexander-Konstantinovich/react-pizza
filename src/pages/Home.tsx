@@ -1,7 +1,7 @@
 import React from 'react';
 
 import qs from 'qs';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
@@ -9,19 +9,23 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 import Pagination from '../components/Pagination';
 import { sortList } from '../components/Sort';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch } from '../redux/store';
+import { useSelector } from 'react-redux';
 import {
 	setCategory,
 	setCurrentPage,
 	setFilters,
 	selectFilter,
 } from '../redux/slices/filterSlice';
-import { fetchAddPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
+import {
+	SearchPizzaParams,
+	fetchAddPizzas,
+	selectPizzaData,
+} from '../redux/slices/pizzasSlice';
 
 const Home: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false); //Указываем первый рендер false
 	const { categoryId, sort, currentPage, searchValue } =
@@ -55,19 +59,20 @@ const Home: React.FC = () => {
 	//Если был первый рендер, то проверяем URL и сохраняем в redux
 	React.useEffect(() => {
 		if (window.location.search) {
-			const params = qs.parse(window.location.search.substring(1)); // удаляем наш "?"
-			const sort = sortList.find(
-				obj => obj.sortProperty === params.sortProperty
-			); //?????????
+			const params = qs.parse(
+				window.location.search.substring(1)
+			) as unknown as SearchPizzaParams;
+			const sort = sortList.find(obj => obj.sortProperty === params.sortBy);
 			dispatch(
 				setFilters({
-					//сохраняем наши параметры в reduxы
-					...params,
-					sort, //??
+					searchValue: params.search,
+					categoryId: Number(params.category),
+					currentPage: Number(params.currentPage),
+					sort: sort || sortList[0],
 				})
 			);
-			isSearch.current = true;
 		}
+		isSearch.current = true;
 	}, []);
 
 	//Если был первый рендер, то запрашиваем пиццы
@@ -80,9 +85,7 @@ const Home: React.FC = () => {
 	}, [categoryId, sort, searchValue, currentPage]);
 
 	const pizzas = items.map((obj: any) => (
-		<Link key={obj.id} to={`pizza/${obj.id}`}>
 			<PizzaBlock {...obj} />
-		</Link>
 	));
 	const skeletons = [...new Array(6)].map((_, index) => (
 		<Skeleton key={index} />

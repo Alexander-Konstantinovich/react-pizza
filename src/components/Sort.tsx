@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setSort, selectSort } from '../redux/slices/filterSlice';
+import {
+	setSort,
+	selectSort,
+	SortPropertyEnum,
+} from '../redux/slices/filterSlice';
 
 type TypeSortList = {
 	name: string;
-	sortProperty: string;
-}
+	sortProperty: SortPropertyEnum;
+};
 
 export const sortList: TypeSortList[] = [
-	{ name: 'популярности(DESC)', sortProperty: 'rating' },
-	{ name: 'популярности (ASC)', sortProperty: '-rating' },
-	{ name: 'цене (DESC)', sortProperty: 'price' },
-	{ name: 'цене (ASC)', sortProperty: '-price' },
-	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
-	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
+	{ name: 'популярности(DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
+	{ name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
+	{ name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+	{ name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+	{ name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+	{ name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-function Sort() {
+function SortPopup() {
 	const dispatch = useDispatch();
 	const sortRef = React.useRef<HTMLDivElement>(null);
 	const sort = useSelector(selectSort);
@@ -29,14 +33,14 @@ function Sort() {
 	};
 
 	React.useEffect(() => {
-		const handleClickOutside = (event:MouseEvent) => {
-
+		const handleClickOutside = (event: MouseEvent) => {
 			if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
 				setIsVisible(false);
 			}
 		};
-		document.body.addEventListener('click', handleClickOutside);	// указываем какой клик удаляем. 
-		return () => {														// unmount
+		document.body.addEventListener('click', handleClickOutside); // указываем какой клик удаляем.
+		return () => {
+			// unmount
 			document.body.removeEventListener('click', handleClickOutside);
 		};
 	}, []);
@@ -80,4 +84,4 @@ function Sort() {
 	);
 }
 
-export default Sort;
+export default SortPopup;
