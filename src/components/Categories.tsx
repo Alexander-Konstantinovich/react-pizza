@@ -2,19 +2,18 @@ import React from 'react';
 
 type TypeCategories = {
 	value: number;
-	onClickCategory: (idx: number)=> void;
+	onClickCategory: (idx: number) => void;
 };
-	const categories = [
-		'Все',
-		'Мясные',
-		'Вегетарианские',
-		'Гриль',
-		'Острые',
-		'Закрытые',
-	];
+const categories = [
+	'Все',
+	'Мясные',
+	'Вегетарианские',
+	'Гриль',
+	'Острые',
+	'Закрытые',
+];
 
-const Categories: React.FC<TypeCategories> = ({ value, onClickCategory }) => {
-
+const Categories: React.FC<TypeCategories> = React.memo(({ value, onClickCategory }) => {
 	return (
 		<div className='categories'>
 			<ul>
@@ -30,6 +29,6 @@ const Categories: React.FC<TypeCategories> = ({ value, onClickCategory }) => {
 			</ul>
 		</div>
 	);
-};
+});
 
 export default Categories;

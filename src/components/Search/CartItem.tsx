@@ -47,7 +47,8 @@ const CartItemBlock:React.FC <TypeCartItem> = ({ id, title, count, size, imageUr
 				</p>
 			</div>
 			<div className='cart__item-count'>
-				<div
+				<button
+				disabled={count === 1}
 					onClick={onClickMinus}
 					className='button button--outline button--circle cart__item-count-minus'
 				>
@@ -67,9 +68,9 @@ const CartItemBlock:React.FC <TypeCartItem> = ({ id, title, count, size, imageUr
 							fill='#EB5A1E'
 						></path>
 					</svg>
-				</div>
+				</button>
 				<b>{count}</b>
-				<div
+				<button
 					onClick={onClickPlus}
 					className='button button--outline button--circle cart__item-count-plus'
 				>
@@ -89,13 +90,13 @@ const CartItemBlock:React.FC <TypeCartItem> = ({ id, title, count, size, imageUr
 							fill='#EB5A1E'
 						></path>
 					</svg>
-				</div>
+				</button>
 			</div>
 			<div className='cart__item-price'>
 				<b>{sumPrice} ₽</b>
 			</div>
 			<div className='cart__item-remove'>
-				<div
+				<button
 					onClick={onClickRemove}
 					className='button button--outline button--circle'
 				>
@@ -115,7 +116,7 @@ const CartItemBlock:React.FC <TypeCartItem> = ({ id, title, count, size, imageUr
 							fill='#EB5A1E'
 						></path>
 					</svg>
-				</div>
+				</button>
 			</div>
 		</div>
 	);

@@ -2,7 +2,6 @@ import React from 'react';
 
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
-
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
@@ -42,6 +41,9 @@ const Home: React.FC = () => {
 		dispatch(fetchAddPizzas({ category, sortBy, order, search, currentPage })); //получает данные и сразу их сохраняет
 		window.scrollTo(0, 0);
 	};
+	const onClickCategory = React.useCallback((id: number) => {
+		dispatch(setCategory(id));
+	}, []);
 
 	// в случае отсутствия первого рендера, не вшиваем наши параметры в наш URL
 	React.useEffect(() => {
@@ -84,9 +86,7 @@ const Home: React.FC = () => {
 		window.scrollTo(0, 0);
 	}, [categoryId, sort, searchValue, currentPage]);
 
-	const pizzas = items.map((obj: any) => (
-			<PizzaBlock {...obj} />
-	));
+	const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 	const skeletons = [...new Array(6)].map((_, index) => (
 		<Skeleton key={index} />
 	));
@@ -94,13 +94,8 @@ const Home: React.FC = () => {
 	return (
 		<div className='container'>
 			<div className='content__top'>
-				<Categories
-					value={categoryId}
-					onClickCategory={(id: number) => {
-						dispatch(setCategory(id));
-					}} //передаём в dispatch наш ИМПОРТИРОВАННЫЙ метод
-				/>
-				<Sort />
+				<Categories value={categoryId} onClickCategory={onClickCategory} />
+				<Sort value={sort}/>
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 			{status === 'error' ? (
