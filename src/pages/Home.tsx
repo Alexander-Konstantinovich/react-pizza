@@ -10,17 +10,11 @@ import Pagination from '../components/Pagination';
 import { sortList } from '../components/Sort';
 import { useAppDispatch } from '../redux/store';
 import { useSelector } from 'react-redux';
-import {
-	setCategory,
-	setCurrentPage,
-	setFilters,
-	selectFilter,
-} from '../redux/slices/filterSlice';
-import {
-	SearchPizzaParams,
-	fetchAddPizzas,
-	selectPizzaData,
-} from '../redux/slices/pizzasSlice';
+import { setCategory, setCurrentPage, setFilters } from '../redux/filter/slice';
+import { selectFilter } from '../redux/filter/selector';
+import { fetchAddPizzas } from '../redux/pizzas/asyncAction';
+import { SearchPizzaParams } from '../redux/pizzas/types';
+import { selectPizzaData } from '../redux/pizzas/selector';
 
 const Home: React.FC = () => {
 	const navigate = useNavigate();
@@ -95,7 +89,7 @@ const Home: React.FC = () => {
 		<div className='container'>
 			<div className='content__top'>
 				<Categories value={categoryId} onClickCategory={onClickCategory} />
-				<Sort value={sort}/>
+				<Sort value={sort} />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 			{status === 'error' ? (
