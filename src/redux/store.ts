@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import filter from './slices/filterSlice';
-import cart from './slices/cartSlice';
-import pizzas from './slices/pizzasSlice';
+import filter from './filter/slice';
+import cart from './cart/slice';
+import pizzas from './pizzas/slice';
 
 export const store = configureStore({
 	reducer: {
@@ -14,4 +14,3 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-
