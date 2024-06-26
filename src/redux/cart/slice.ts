@@ -3,8 +3,6 @@ import { getCartFromLS } from '../../utils/getCartFromLS';
 import { InitialCart } from './types';
 import { CartItem } from './types';
 
-
-
 const initialState: InitialCart = {
 	totalPrice: 0,
 	items: getCartFromLS(),
@@ -37,7 +35,7 @@ const cartSlice = createSlice({
 				findItem.count--;
 			}
 		},
-		setRemoveItem(state, action:PayloadAction<string>) {
+		setRemoveItem(state, action: PayloadAction<string>) {
 			state.items = state.items.filter(obj => obj.id !== action.payload);
 		},
 		setClearItems(state) {
@@ -46,8 +44,6 @@ const cartSlice = createSlice({
 		},
 	},
 });
-
-
 
 export const { setAddItem, setRemoveItem, setClearItems, setMinusItem } =
 	cartSlice.actions;

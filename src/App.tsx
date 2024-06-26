@@ -3,14 +3,15 @@ import './scss/app.scss';
 import { Route, Routes } from 'react-router-dom';
 import MainLayout from './components/layouts/MainLayout';
 import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 const Cart = React.lazy(
 	() => import(/*webpackChunkName: "Cart"*/ './pages/Cart')
 );
 const FullPizza = React.lazy(
-	() => import(/*webpackChunkName: "Cart"*/ './pages/FullPizza')
+	() => import(/*webpackChunkName: "FullPizza"*/ './pages/FullPizza')
 );
 const NotFound = React.lazy(
-	() => import(/*webpackChunkName: "Cart"*/ './pages/NotFound')
+	() => import(/*webpackChunkName: "NotFound"*/ './pages/NotFound')
 );
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
 		<Routes>
 			<Route path='/' element={<MainLayout />}>
 				<Route path='/' element={<Home />} />
+				<Route path='/favorites' element={<Favorites />} />
 				<Route
 					path='/cart'
 					element={

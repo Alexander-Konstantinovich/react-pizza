@@ -4,12 +4,15 @@ import Search from './Search';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/cart/selector';
+import { selectFavorites } from '../redux/favorites/selector';
 
 function Header() {
 	const { items, totalPrice } = useSelector(selectCart);
+	const { itemsFav } = useSelector(selectFavorites);
+	const totalCount = itemsFav.length;
 	const location = useLocation();
 	const isMounted = React.useRef(false);
-	const totalCount = items.reduce((sum: number, item: any) => {
+	const totalCountPizza = items.reduce((sum: number, item: any) => {
 		return sum + item.count;
 	}, 0);
 
@@ -34,6 +37,28 @@ function Header() {
 					</div>
 				</Link>
 				{location.pathname !== '/cart' && <Search />}
+				<div className='header__favorite'>
+					<Link
+						to='/favorites'
+						className='button button--outline button--favorites'
+					>
+						<span>{totalCount}</span>
+						<svg
+							width='22'
+							height='22'
+							viewBox='-5 -5 30 28'
+							xmlns='http://www.w3.org/2000/svg'
+						>
+							<path
+								d='M23.3,8.6c0,5.2-7.7,10.6-10.3,12.4c-0.6,0.4-1.3,0.4-1.8,0C8.4,19.3,0.8,13.8,0.8,8.6c0-3.3,2.6-5.9,5.9-5.9   c2.4,0,4.4,1.4,5.4,3.4c0.9-2,3-3.4,5.4-3.4C20.6,2.7,23.3,5.4,23.3,8.6z'
+								stroke='white'
+								strokeWidth='3'
+								strokeLinecap='round'
+								strokeLinejoin='round'
+							/>
+						</svg>
+					</Link>
+				</div>
 				<div className='header__cart'>
 					{location.pathname !== '/cart' && (
 						<Link to='/cart' className='button button--cart'>
@@ -68,7 +93,7 @@ function Header() {
 									strokeLinejoin='round'
 								/>
 							</svg>
-							<span>{totalCount}</span>
+							<span>{totalCountPizza}</span>
 						</Link>
 					)}
 				</div>
